@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Switch</title>
+    <style type="text/css">
+        .switch {
+            width: 60px;
+            height: 30px;
+            background-color: #ddd;
+            border-radius: 15px;
+        }
+
+        .switch > .btn {
+            width: 30px;
+            height: 30px;
+            background-color: #444;
+            border-radius: 15px;
+        }
+
+        .switch-on {
+            background-color: #ddffdd;
+        }
+
+        .switch-on > .btn {
+            background-color: #448844;
+            margin-left: 30px;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/redux@3.7.2/dist/redux.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script type="text/babel">
+  class Switch extends React.Component {
+    constructor() {
+      super(...arguments);
+      this.state = store.getState();
+    }
+
+    render() {
+      let className = "switch";
+      if (this.state.on) {
+        className += " switch-on";
+      }
+      return <div onClick={this.update} className={className}>
+          <div className="btn"></div>
+      </div>
+    }
+
+    componentDidMount() {
+      this.unsubscribe = store.subscribe(this.refresh);
+    }
+
+    update = e => {
+      store.dispatch({type: 'UPDATE_SWITCH'});
+    };
+
+    refresh = () => {
+      this.setState(store.getState());
+    };
+
+    componentWillUnmount() {
+      this.unsubscribe();
+    }
+
+  }
+
+  let reducer = (state, action) => {
+    switch (action.type) {
+      case 'UPDATE_SWITCH':
+        return {on: !state.on};
+      default:
+        return state;
+    }
+  };
+  let store = Redux.createStore(reducer, {on: false});
+
+  ReactDOM.render(<Switch/>, document.querySelector('#app'));
+</script>
+</body>
+</html>
