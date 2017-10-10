@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的第一個組件</title>
+</head>
+<body>
+<div id="app"></div>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script>
+  class MyHead extends React.Component {
+    render() {
+      let {level} = this.props;
+      return React.createElement('h' + level, null, 'Hello Component');
+    }
+  }
+
+  class MyHeadList extends React.Component {
+    constructor() {
+      super(...arguments);
+      this.state = {maxLevel: this.props.start};
+    }
+    componentWillMount() { // 組件將要繪製前的時刻
+      this.intervalId = window.setInterval(() => {
+        this.setState((currentState, currentProps) => {
+          if (currentState.maxLevel > currentProps.end) {
+            return {maxLevel: currentState.maxLevel};
+          }
+          return {maxLevel: ++currentState.maxLevel}
+        });
+      }, 1000);
+    }
+    render() {
+      let heads = [];
+      for (let i = this.props.start; i < this.state.maxLevel; i++) {
+        let head = React.createElement(MyHead, {level: i, key: i});
+        heads.push(head);
+      }
+      return React.createElement("div", null, heads);
+    }
+    componentWillUnmount() { // 組件將要刪除前的時刻
+      window.clearInterval(this.intervalId);
+    }
+  }
+
+  window.addEventListener('load', () => {
+    let myComponent = React.createElement(MyHeadList, {start: 1, end: 6});
+    ReactDOM.render(myComponent, document.querySelector('#app'));
+  })
+</script>
+</body>
+</html>

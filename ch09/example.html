@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用 React 組件，建立單一項目練習</title>
+</head>
+<body>
+<div id="app"></div>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script>
+    class Item extends React.Component {
+      constructor(props) {
+        super(props);
+      }
+      render() {
+        return React.createElement('li', null, this.props.value);
+      }
+    }
+    class List extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {count: this.props.start};
+      }
+      componentWillMount() {
+        this.intervalId = setInterval(() => {
+          this.setState((currentState, currentProps) => {
+            if (currentState.count < currentProps.end) {
+              return {count: currentState.count + 1};
+            }
+            return {count: currentState.count};
+          });
+        }, 2000);
+      }
+      render() {
+        let items = [];
+        for (let i = 1; i < this.state.count + 1; i++) {
+          items.push(React.createElement(Item, {value: 'Item ' + i, key: i}));
+        }
+        return React.createElement('ul', null, items);
+      }
+      componentWillUnmount() {
+        clearInterval(this.intervalId);
+      }
+    }
+    let list = React.createElement(List, {start: 4, end: 6});
+    ReactDOM.render(list, document.querySelector('#app'));
+</script>
+</body>
+</html>

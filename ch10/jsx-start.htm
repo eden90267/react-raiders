@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+    <style type="text/css">
+        .head {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script type="text/babel">
+  class MyHead extends React.Component {
+    render() {
+      return <div className="head" style={{color: this.props.color}}>Hello World {this.props.level}</div>;
+    }
+  }
+
+  class MyHeadList extends React.Component {
+    render() {
+      return (<div>
+          <MyHead level={1} color="red"/>
+          <MyHead level={2} color="green"/>
+          <MyHead level={3} color="blue"/>
+      </div>);
+    }
+  }
+
+  ReactDOM.render(<MyHeadList/>, document.querySelector('#app'));
+</script>
+</body>
+</html>

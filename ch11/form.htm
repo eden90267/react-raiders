@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+</head>
+<body>
+<div id="app"></div>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script type="text/babel">
+  class MyForm extends React.Component {
+    constructor() {
+      super(...arguments);
+      this.state = {
+        name: '',
+        gender: 'male',
+        story: ''
+      }
+    }
+
+    render() {
+      return <form onSubmit={this.handleSubmit}>
+          Name <input type="text" value={this.state.name} onChange={this.handleNameChange}/>
+          <br/>
+          Gender <select value={this.state.gender} onChange={this.handleGenderChange}>
+              <option value="male">男</option>
+              <option value="female">女</option>
+          </select>
+          <br/>
+          Story <textarea value={this.state.story} onChange={this.handleStoryChange}></textarea>
+          <br/>
+          <input type="submit" value="submit"/>
+      </form>
+    }
+
+    handleSubmit = e => {
+      e.preventDefault();
+      console.log('表單送出');
+      console.log('Name: ' + this.state.name);
+      console.log('Gender: ' + this.state.gender);
+      console.log('Story: ' + this.state.story);
+      // 根據使用者輸入的資料，進行想要的運算、邏輯
+    };
+    handleNameChange = e => {
+      this.setState({name: e.currentTarget.value});
+    };
+    handleGenderChange = e => {
+      this.setState({gender: e.currentTarget.value});
+    };
+    handleStoryChange = e => {
+      this.setState({story: e.currentTarget.value});
+    }
+  }
+
+  ReactDOM.render(<MyForm level={3}/>, document.querySelector('#app'));
+</script>
+</body>
+</html>

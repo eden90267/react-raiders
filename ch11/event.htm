@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event</title>
+    <style type="text/css">
+        .head-3 {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script type="text/babel">
+  class MyHead extends React.Component {
+    constructor() {
+      super(...arguments);
+      this.state = {color: 'red'};
+    }
+
+    render() {
+      return <div className={'head-' + this.props.level}
+                  style={{color: this.state.color}}
+                  onClick={this.clickHandler}
+                  onMouseOver={this.mouseOverHandler}
+                  onMouseOut={this.mouseOutHandler}>Hello Component</div>;
+    }
+
+    clickHandler = e => {
+      this.setState({color: 'blue'});
+    };
+    mouseOverHandler = e => {
+      this.setState({color: 'blue'});
+    };
+    mouseOutHandler = e => {
+      this.setState({color: 'red'});
+    };
+  }
+
+  ReactDOM.render(<MyHead level={3}/>, document.querySelector('#app'));
+</script>
+</body>
+</html>
