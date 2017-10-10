@@ -94,12 +94,13 @@
       let cells = [];
       for (let i = 0; i < this.state.marks.length; i++) {
         cells.push(
-                <Cell index={i}
+                <Cell key={i} index={i}
                       mark={this.state.marks[i]}
                       update={this.updateMark}/>);
       }
       if (this.state.winner !== null) {
-        cells.push(<Line startIndex={this.state.winner.startIndex}
+        cells.push(<Line key={cells.length}
+                         startIndex={this.state.winner.startIndex}
                          endIndex={this.state.winner.endIndex}/>);
       }
       return <div className="board">{cells}</div>
